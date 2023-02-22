@@ -12,3 +12,7 @@ function generateAIPick() {
             return "scissors";
     }
 }
+
+function getPlayerChoice() {
+    return prompt("Rock, Paper or scissors? The choice is yours!").toLowerCase();
+}
