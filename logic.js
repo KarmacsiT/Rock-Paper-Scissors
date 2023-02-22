@@ -71,14 +71,14 @@ function formatRoundInfo(roundOutcome) {
 
         switch (i) {
             case 0:
-                roundOutcome[0] = `Round ${roundOutcome[0]+1}\n`;
+                roundOutcome[0] = `Round ${roundOutcome[0] + 1}`;
                 break;
 
             case 1:
-                roundOutcome[1] = `Player Choice: ${roundOutcome[1]}\n`;
+                roundOutcome[1] = `Player Choice: ${roundOutcome[1]}`;
                 break;
             case 2:
-                roundOutcome[2] = `AI Choice: ${roundOutcome[2]}\n`;
+                roundOutcome[2] = `AI Choice: ${roundOutcome[2]}`;
                 break;
         }
     }
@@ -88,5 +88,22 @@ function formatRoundInfo(roundOutcome) {
 
 function printRoundInfo(roundOutcome) {
     let formattedRoundOutcome = formatRoundInfo(roundOutcome);
-    alert(formattedRoundOutcome);
+    alert(formattedRoundOutcome.join("\n"));
+}
+
+function playGame() {
+    let roundNumber = Math.floor(Number(getRoundNumber()));
+
+    if (!isNaN(roundNumber) && isFinite(roundNumber) && roundNumber > 0) {
+        playRound(roundNumber);
+    }
+
+    else {
+        alert("Your input is not valid!\nIt has to be positive integer and greater than zero!");
+    }
+
+}
+
+function getRoundNumber() {
+    return prompt("Welcome to my Rock-Paper-Scissors Game!\nHow many rounds do you want to play!")
 }
