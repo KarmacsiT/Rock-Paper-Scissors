@@ -16,3 +16,77 @@ function generateAIPick() {
 function getPlayerChoice() {
     return prompt("Rock, Paper or scissors? The choice is yours!").toLowerCase();
 }
+
+function playRound(roundNumber) {
+    let AIchoice;
+    let playerChoice;
+    let roundInfo;
+
+    for (let i = 0; i < roundNumber; i++) {
+
+        AIchoice = generateAIPick();
+        playerChoice = getPlayerChoice();
+        roundInfo = [i, playerChoice, AIchoice];
+
+        if (playerChoice !== "rock" && playerChoice !== "paper" && playerChoice !== "scissors") {
+            alert(`As clarification you can only pick Rock, Paper or Scissors!\nYou picked ${playerChoice}, which is an invalid pick!`);
+            continue;
+        }
+
+        if (playerChoice === AIchoice) {
+            roundInfo[3] = "It's a draw!";
+            printRoundInfo(roundInfo);
+            continue;
+        }
+
+        else if (playerChoice === "rock" && AIchoice === "scissors") {
+            roundInfo[3] = "Congrats! You won the game!";
+            printRoundInfo(roundInfo);
+            continue;
+        }
+
+        else if (playerChoice === "paper" && AIchoice === "rock") {
+            roundInfo[3] = "Congrats! You won the game!";
+            printRoundInfo(roundInfo);
+            continue;
+        }
+
+        else if (playerChoice === "scissors" && AIchoice === "paper") {
+            roundInfo[3] = "Congrats! You won the game!";
+            printRoundInfo(roundInfo);
+            continue;
+        }
+
+        else {
+            roundInfo[3] = "You lost the game! May luck be on your side next time!";
+            printRoundInfo(roundInfo);
+            continue;
+        }
+    }
+}
+
+function formatRoundInfo(roundOutcome) {
+
+    for (let i = 0; i < roundOutcome.length; i++) {
+
+        switch (i) {
+            case 0:
+                roundOutcome[0] = `Round ${roundOutcome[0]+1}\n`;
+                break;
+
+            case 1:
+                roundOutcome[1] = `Player Choice: ${roundOutcome[1]}\n`;
+                break;
+            case 2:
+                roundOutcome[2] = `AI Choice: ${roundOutcome[2]}\n`;
+                break;
+        }
+    }
+
+    return roundOutcome;
+}
+
+function printRoundInfo(roundOutcome) {
+    let formattedRoundOutcome = formatRoundInfo(roundOutcome);
+    alert(formattedRoundOutcome);
+}
