@@ -1,3 +1,9 @@
+let roundNumber = 0;
+let playerScore = 0;
+let AIScore = 0;
+
+window.onload = initializeGame();
+
 function generateAIPick() {
 	let AIchoice = Math.floor(Math.random() * 3);
 
@@ -13,60 +19,70 @@ function generateAIPick() {
 	}
 }
 
-function getPlayerChoice() {
-	return prompt("Rock, Paper or scissors? The choice is yours!").toLowerCase();
-}
-
-function playRound(roundNumber) {
+function playRound(playerChoice) {
 	let AIchoice;
-	let playerChoice;
 	let roundInfo;
+	let message;
 
-	for (let i = 0; i < roundNumber; i++) {
-		AIchoice = generateAIPick();
-		playerChoice = getPlayerChoice();
-		roundInfo = [i, playerChoice, AIchoice];
+	roundNumber++;
 
-		if (
-			playerChoice !== "rock" &&
-			playerChoice !== "paper" &&
-			playerChoice !== "scissors"
-		) {
-			alert(
-				`As clarification you can only pick Rock, Paper or Scissors!\nYou picked ${playerChoice}, which is an invalid pick!`
-			);
-			continue;
-		}
+	AIchoice = generateAIPick();
 
-		if (playerChoice === AIchoice) {
-			roundInfo[3] = "It's a draw!";
-			printRoundInfo(roundInfo);
-			continue;
-		} else if (playerChoice === "rock" && AIchoice === "scissors") {
-			roundInfo[3] = "Congrats! You won the game!";
-			printRoundInfo(roundInfo);
-			continue;
-		} else if (playerChoice === "paper" && AIchoice === "rock") {
-			roundInfo[3] = "Congrats! You won the game!";
-			printRoundInfo(roundInfo);
-			continue;
-		} else if (playerChoice === "scissors" && AIchoice === "paper") {
-			roundInfo[3] = "Congrats! You won the game!";
-			printRoundInfo(roundInfo);
-			continue;
-		} else {
-			roundInfo[3] = "You lost the game! May luck be on your side next time!";
-			printRoundInfo(roundInfo);
-			continue;
-		}
+	roundInfo = [];
+
+	if (playerChoice === AIchoice) {
+		message = "It's a draw!";
+	} else if (playerChoice === "rock" && AIchoice === "scissors") {
+		message = "Congrats! You won the game!";
+		playerScore++;
+	} else if (playerChoice === "paper" && AIchoice === "rock") {
+		message = "Congrats! You won the game!";
+		playerScore++;
+	} else if (playerChoice === "scissors" && AIchoice === "paper") {
+		message = "Congrats! You won the game!";
+		playerScore++;
+	} else {
+		message = "You lost the game! May luck be on your side next time!";
+		AIScore++;
+	}
+
+	roundInfo.push(
+		roundNumber,
+		playerChoice,
+		AIchoice,
+		message,
+		playerScore,
+		AIScore
+	);
+
+	printRoundInfo(roundInfo);
+
+	if (playerScore === 5 || AIScore === 5) {
+		checkGameOver();
 	}
 }
 
+function checkGameOver() {
+	if (playerScore === 5) {
+		alert("Congratulations! You won the game!");
+	} else if (AIScore === 5) {
+		alert("You lost the game! May luck be on your side next time!");
+	}
+
+	EndGame();
+}
+
+function EndGame() {
+	const buttons = document.querySelectorAll("button");
+	buttons.forEach((button) => {
+		button.disabled = true;
+	});
+}
 function formatRoundInfo(roundOutcome) {
-	for (let i = 0; i < roundOutcome.length; i++) {
+	for (let i = 0; i < roundOutcome.length + 1; i++) {
 		switch (i) {
 			case 0:
-				roundOutcome[0] = `Round ${roundOutcome[0] + 1}`;
+				roundOutcome[0] = `Round ${roundOutcome[0]}`;
 				break;
 
 			case 1:
@@ -79,6 +95,12 @@ function formatRoundInfo(roundOutcome) {
 					roundOutcome[2].charAt(0).toUpperCase() + roundOutcome[2].slice(1);
 				roundOutcome[2] = `AI Choice: ${roundOutcome[2]}`;
 				break;
+			case 4:
+				roundOutcome[4] = `Player's Score: ${roundOutcome[4]}`;
+				break;
+			case 5:
+				roundOutcome[5] = `AI Score: ${roundOutcome[5]}`;
+				break;
 		}
 	}
 
@@ -90,20 +112,12 @@ function printRoundInfo(roundOutcome) {
 	alert(formattedRoundOutcome.join("\n"));
 }
 
-function playGame() {
-	let roundNumber = Math.floor(Number(getRoundNumber()));
+function initializeGame() {
+	const buttons = document.querySelectorAll("button");
 
-	if (!isNaN(roundNumber) && isFinite(roundNumber) && roundNumber > 0) {
-		playRound(roundNumber);
-	} else {
-		alert(
-			"Your input is not valid!\nIt has to be a positive integer and greater than zero!"
-		);
-	}
-}
-
-function getRoundNumber() {
-	return prompt(
-		"Welcome to my Rock-Paper-Scissors Game!\nHow many rounds do you want to play?"
-	);
+	buttons.forEach((button) => {
+		button.addEventListener("click", () => {
+			playRound(button.textContent.toLowerCase());
+		});
+	});
 }
