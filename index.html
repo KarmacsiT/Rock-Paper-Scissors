@@ -6,32 +6,36 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Rock-Paper-Scissors</title>
 		<script src="./index.js" defer></script>
+		<link rel="stylesheet" href="./style.css" />
 	</head>
 	<body>
-		<h1>Rock-Paper-Scissors</h1>
-		<p>
-			Rule: The game is a best of 5, meaning the first participant to reach 5
-			points wins.
+		<h2>Rock-Paper-Scissors</h2>
+		<p class="rule">
+			<span>Rule:</span> The game is a best of 5, meaning the first participant
+			to reach 5 points wins.
 		</p>
-		<p class="round-number">Round -</p>
+		<p class="round-number">Round <span class="round-counter">-</span></p>
 		<div class="scores">
-			<p class="player-score">Player Score: -</p>
-			<p class="ai-score">AI Score: -</p>
+			<p class="player-score">
+				🧑 Score: <span class="player-score-counter">-</span>
+			</p>
+			<p class="ai-score">🤖 Score: <span class="ai-score-counter">-</span></p>
 		</div>
 		<div class="pick-panel">
-			<p>Choose your weapon:</p>
+			<p>Choose your Gesture:</p>
 			<div class="button-panel">
-				<button>Rock</button>
-				<button>Paper</button>
-				<button>Scissors</button>
+				<img class="rock" src="./images/rock.gif" />
+				<img class="paper" src="./images/paper.gif" />
+				<img class="scissors" src="./images/scissors.gif" />
 			</div>
 		</div>
 		<div class="game-log">
-			<p>Round Info:</p>
-			<p class="player-choice">Player Choice: -</p>
-			<p class="ai-choice">AI Choice: -</p>
 			<p class="round-status"></p>
+			<div class="choices">
+				<p class="player-choice">🧑 Choice: -</p>
+				<p class="ai-choice">🤖 Choice: -</p>
+			</div>
 		</div>
-		<button class="play-again"></button>
+		<button class="play-again squishy-button"></button>
 	</body>
 </html>

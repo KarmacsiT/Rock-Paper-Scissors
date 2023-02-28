@@ -2,15 +2,21 @@ let roundNumber = 0;
 let playerScore = 0;
 let AIScore = 0;
 
+const areaListener = new AbortController();
+
 window.onload = initializeGame();
 
 function initializeGame() {
 	const buttonPanel = document.querySelector(".button-panel");
 
 	buttonPanel.childNodes.forEach((button) => {
-		button.addEventListener("click", () => {
-			playRound(button.textContent.toLowerCase());
-		});
+		button.addEventListener(
+			"click",
+			() => {
+				playRound(button.className.toLowerCase());
+			},
+			{ signal: areaListener.signal }
+		);
 	});
 
 	const playAgainButton = document.querySelector(".play-again");
@@ -33,19 +39,18 @@ function playRound(playerChoice) {
 	roundInfo = [];
 
 	if (playerChoice === AIchoice) {
-		message = "It's a draw!";
+		message = "It's a draw! 🫡";
 	} else if (playerChoice === "rock" && AIchoice === "scissors") {
-		message = "Congrats! This round is yours to take!";
+		message = "Congrats! This round is yours to take! 😎";
 		playerScore++;
 	} else if (playerChoice === "paper" && AIchoice === "rock") {
-		message = "Congrats! This round is yours to take!";
+		message = "Congrats! This round is yours to take! 😎";
 		playerScore++;
 	} else if (playerChoice === "scissors" && AIchoice === "paper") {
-		message = "Congrats! This round is yours to take!";
+		message = "Congrats! This round is yours to take! 😎";
 		playerScore++;
 	} else {
-		message =
-			"You lost that round, but it's not over yet! Get ready for the next one!";
+		message = "You lost that round, but it's not over yet! Keep it up! 🤕";
 		AIScore++;
 	}
 
@@ -82,19 +87,16 @@ function generateAIPick() {
 
 function checkGameOver() {
 	if (playerScore === 5) {
-		alert("Congratulations! You won the game!");
+		alert("Congratulations! You owned the game! 🔥");
 	} else if (AIScore === 5) {
-		alert("You lost the game! May luck be on your side next time!");
+		alert("You lost the game! May luck be on your side next time! 🫠");
 	}
 
 	EndGame();
 }
 
 function EndGame() {
-	const buttonPanel = document.querySelector(".button-panel");
-	buttonPanel.childNodes.forEach((button) => {
-		button.disabled = true;
-	});
+	areaListener.abort(); //Aborts event listeners
 
 	changePlayAgainButtonVisibility();
 }
@@ -102,7 +104,7 @@ function EndGame() {
 function changePlayAgainButtonVisibility() {
 	const playAgainButton = document.querySelector(".play-again");
 	if (playAgainButton.style.display === "none") {
-		playAgainButton.style.display = "block";
+		playAgainButton.style.display = "flex";
 		playAgainButton.innerHTML = "Play Again";
 	} else {
 		playAgainButton.style.display = "none";
@@ -121,25 +123,15 @@ function displayRoundInfo(roundOutcome) {
 function formatRoundInfo(roundOutcome) {
 	for (let i = 0; i < roundOutcome.length + 1; i++) {
 		switch (i) {
-			case 0:
-				roundOutcome[0] = `Round ${roundOutcome[0]}`;
-				break;
-
 			case 1:
 				roundOutcome[1] =
 					roundOutcome[1].charAt(0).toUpperCase() + roundOutcome[1].slice(1);
-				roundOutcome[1] = `Player Choice: ${roundOutcome[1]}`;
+				roundOutcome[1] = `🧑 Choice: ${roundOutcome[1]}`;
 				break;
 			case 2:
 				roundOutcome[2] =
 					roundOutcome[2].charAt(0).toUpperCase() + roundOutcome[2].slice(1);
-				roundOutcome[2] = `AI Choice: ${roundOutcome[2]}`;
-				break;
-			case 4:
-				roundOutcome[4] = `Player Score: ${roundOutcome[4]}`;
-				break;
-			case 5:
-				roundOutcome[5] = `AI Score: ${roundOutcome[5]}`;
+				roundOutcome[2] = `🤖 Choice: ${roundOutcome[2]}`;
 				break;
 		}
 	}
@@ -148,25 +140,65 @@ function formatRoundInfo(roundOutcome) {
 }
 
 function displayRoundNumber(roundOutcome) {
-	const roundParagraph = document.querySelector(".round-number");
-	roundParagraph.innerText = roundOutcome[0];
+	const roundCounter = document.querySelector(".round-counter");
+	roundCounter.style.color = "#c38d9e";
+	roundCounter.innerText = roundOutcome[0];
 }
 
 function displayScores(roundOutcome) {
-	const playerScoreParagraph = document.querySelector(".player-score");
-	playerScoreParagraph.innerText = roundOutcome[4];
-	const aiScoreParagraph = document.querySelector(".ai-score");
-	aiScoreParagraph.innerText = roundOutcome[5];
+	const container = document.querySelector(".scores");
+
+	const playerScoreCounter =
+		container.querySelector(".player-score").firstElementChild;
+	playerScoreCounter.style.color = "#c38d9e";
+	playerScoreCounter.innerText = roundOutcome[4];
+	const aiScoreCounter = document.querySelector(".ai-score").firstElementChild;
+	aiScoreCounter.style.color = "#c38d9e";
+	aiScoreCounter.innerText = roundOutcome[5];
 }
 
 function displayWeaponChoices(roundOutcome) {
 	const playerChoice = document.querySelector(".player-choice");
-	playerChoice.innerText = roundOutcome[1];
+	switch (roundOutcome[1]) {
+		case "🧑 Choice: Rock":
+			playerChoice.innerText = "🧑 Choice: 👊";
+			break;
+		case "🧑 Choice: Paper":
+			playerChoice.innerText = "🧑 Choice: ✋";
+			break;
+		case "🧑 Choice: Scissors":
+			playerChoice.innerText = "🧑 Choice: ✌️";
+			break;
+	}
+
 	const aiChoice = document.querySelector(".ai-choice");
-	aiChoice.innerText = roundOutcome[2];
+	switch (roundOutcome[2]) {
+		case "🤖 Choice: Rock":
+			aiChoice.innerText = "🤖 Choice: 👊";
+			break;
+		case "🤖 Choice: Paper":
+			aiChoice.innerText = "🤖 Choice: ✋";
+			break;
+		case "🤖 Choice: Scissors":
+			aiChoice.innerText = "🤖 Choice: ✌️";
+			break;
+	}
 }
 
 function displayRoundStatus(roundOutcome) {
 	const roundStatus = document.querySelector(".round-status");
 	roundStatus.innerText = roundOutcome[3];
+
+	switch (roundOutcome[3]) {
+		case "It's a draw! 🫡":
+			roundStatus.style.color = "#e8a87c";
+			break;
+		case "Congrats! This round is yours to take! 😎":
+			roundStatus.style.color = "#41b3a3";
+			break;
+
+		case "You lost that round, but it's not over yet! Keep it up! 🤕":
+			roundStatus.style.color = "#e27d60";
+			break;
+	}
 }
