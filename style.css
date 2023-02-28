@@ -9,8 +9,9 @@
 	--colorShadeE: rgb(132, 243, 230);
 }
 
-body {
-	background-color: #85cdca;
+html {
+	height: 100%;
+	background-image: linear-gradient(#85cdca, #41b3a3);
 }
 
 .button-panel img {
@@ -18,10 +19,6 @@ body {
 	max-width: 128px;
 	width: auto;
 	height: auto;
-}
-
-.scissors {
-	transform: rotate(90deg) scaleX(-1);
 }
 
 h2 {
@@ -73,6 +70,22 @@ h2 {
 	display: flex;
 	justify-content: center;
 	gap: 100px;
+}
+
+.zoom {
+	transition: transform 0.2s;
+}
+
+.zoom:hover {
+	transform: scale(1.5);
+}
+
+.scissors-zoom {
+	transition: transform 0.2s;
+}
+
+.scissors-zoom:hover {
+	transform: rotate(-90deg) scale(1.4);
 }
 
 .round-status {

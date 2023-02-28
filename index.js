@@ -13,7 +13,7 @@ function initializeGame() {
 		button.addEventListener(
 			"click",
 			() => {
-				playRound(button.className.toLowerCase());
+				playRound(button.id);
 			},
 			{ signal: areaListener.signal }
 		);
