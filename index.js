@@ -18,13 +18,6 @@ function initializeGame() {
 			{ signal: areaListener.signal }
 		);
 	});
-
-	const playAgainButton = document.querySelector(".play-again");
-	playAgainButton.addEventListener("click", () => {
-		location.reload();
-	});
-
-	changePlayAgainButtonVisibility();
 }
 
 function playRound(playerChoice) {
@@ -87,9 +80,55 @@ function generateAIPick() {
 
 function checkGameOver() {
 	if (playerScore === 5) {
-		alert("Congratulations! You owned the game! 🔥");
+		Swal.fire({
+			title: "Game Over!",
+			text: "Congratulations! You owned the game! 🔥",
+			color: "white",
+			background: "linear-gradient(#00e6e6, #009999)",
+			buttonStyling: false,
+			confirmButtonText: "Play Again!",
+			allowOutsideClick: false,
+			allowEscapeKey: false,
+			customClass: {
+				confirmButton: "squishy-button",
+				confirmButtonColor: "rgb(77, 220, 193);",
+			},
+			showClass: {
+				popup: "animate__animated animate__fadeInDown",
+			},
+			hideClass: {
+				popup: "animate__animated animate__fadeOutUp",
+			},
+		}).then(function (IsConfirmed) {
+			if (IsConfirmed) {
+				location.reload();
+			}
+		});
 	} else if (AIScore === 5) {
-		alert("You lost the game! May luck be on your side next time! 🫠");
+		Swal.fire({
+			title: "Game Over!",
+			text: "You lost the game! May luck be on your side next time! 🫠",
+			color: "white",
+			background: "linear-gradient(#ffb84d, #ff9900)",
+			buttonStyling: false,
+			confirmButtonText: "Play Again!",
+			allowOutsideClick: false,
+			allowEscapeKey: false,
+			customClass: {
+				confirmButton: "squishy-button",
+				confirmButtonColor: "rgb(77, 220, 193);",
+			},
+			showClass: {
+				popup: "animate__animated animate__fadeInDown",
+			},
+			hideClass: {
+				popup: "animate__animated animate__fadeOutUp",
+			},
+		}).then(function (IsConfirmed) {
+			if (IsConfirmed) {
+				location.reload();
+			}
+		});
 	}
 
 	EndGame();
@@ -97,18 +136,6 @@ function checkGameOver() {
 
 function EndGame() {
 	areaListener.abort(); //Aborts event listeners
-
-	changePlayAgainButtonVisibility();
-}
-
-function changePlayAgainButtonVisibility() {
-	const playAgainButton = document.querySelector(".play-again");
-	if (playAgainButton.style.display === "none") {
-		playAgainButton.style.display = "flex";
-		playAgainButton.innerHTML = "Play Again";
-	} else {
-		playAgainButton.style.display = "none";
-	}
 }
 
 function displayRoundInfo(roundOutcome) {
@@ -191,10 +218,10 @@ function displayRoundStatus(roundOutcome) {
 
 	switch (roundOutcome[3]) {
 		case "It's a draw! 🫡":
-			roundStatus.style.color = "#e8a87c";
+			roundStatus.style.color = "#ffffff";
 			break;
 		case "Congrats! This round is yours to take! 😎":
-			roundStatus.style.color = "#41b3a3";
+			roundStatus.style.color = "#339966";
 			break;
 
 		case "You lost that round, but it's not over yet! Keep it up! 🤕":
