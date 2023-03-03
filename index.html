@@ -5,13 +5,14 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Rock-Paper-Scissors</title>
-		<script src="./index.js" defer></script>
 		<link rel="stylesheet" href="./style.css" />
 		<link
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
 		/>
 		<link rel="icon" type="image/x-icon" href="./images/favicon.png" />
+		<script src="./index.js" defer></script>
+		<script src="./typed.js" defer></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/lettering.js/0.7.0/jquery.lettering.js"></script>
@@ -24,14 +25,14 @@
 			<span>Rule:</span> The game is a best of 5, meaning the first participant
 			to reach 5 points wins.
 		</p>
-		<p class="round-number">Round <span class="round-counter">#️</span></p>
+		<p class="round-paragraph">Round <span class="round-counter">#️</span></p>
 		<div class="scores">
 			<p class="player-score">
 				🧑 Score: <span class="player-score-counter">❓</span>
 			</p>
 			<p class="ai-score">🤖 Score: <span class="ai-score-counter">❓</span></p>
 		</div>
-		<div class="pick-panel">
+		<div class="gesture-panel">
 			<p>Choose your Gesture:</p>
 			<div class="button-panel">
 				<img class="zoom" id="rock" src="./images/rock.gif" />
@@ -48,15 +49,5 @@
 				<p class="ai-choice">🤖 Choice: <span class="ai-gesture">❓</span></p>
 			</div>
 		</div>
-		<script>
-			var typed = new Typed(".type-title", {
-				strings: ["$Rock", "$Paper", "$Scissors", "$Rock $Paper $Scissors"],
-				typeSpeed: 60,
-				backSpeed: 60,
-				startDelay: 200,
-				backDelay: 900,
-				loop: true,
-			});
-		</script>
 	</body>
 </html>

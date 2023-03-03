@@ -22,14 +22,14 @@ function initializeGame() {
 
 function playRound(playerChoice) {
 	let AIchoice;
-	let roundInfo;
+	let roundOutcome;
 	let message;
 
 	roundNumber++;
 
 	AIchoice = generateAIPick();
 
-	roundInfo = [];
+	roundOutcome = [];
 
 	if (playerChoice === AIchoice) {
 		message = "It's a draw! 🫡";
@@ -47,7 +47,7 @@ function playRound(playerChoice) {
 		AIScore++;
 	}
 
-	roundInfo.push(
+	roundOutcome.push(
 		roundNumber,
 		playerChoice,
 		AIchoice,
@@ -56,10 +56,10 @@ function playRound(playerChoice) {
 		AIScore
 	);
 
-	displayRoundInfo(roundInfo);
+	displayRoundOutcome(roundOutcome);
 
 	if (playerScore === 5 || AIScore === 5) {
-		checkGameOver();
+		displayGameOver();
 	}
 }
 
@@ -78,7 +78,7 @@ function generateAIPick() {
 	}
 }
 
-function checkGameOver() {
+function displayGameOver() {
 	if (playerScore === 5) {
 		Swal.fire({
 			title: "Game Over!",
@@ -131,44 +131,18 @@ function checkGameOver() {
 		});
 	}
 
-	EndGame();
-}
-
-function EndGame() {
 	areaListener.abort(); //Aborts event listeners
 }
 
-function displayRoundInfo(roundOutcome) {
-	let formattedRoundOutcome = formatRoundInfo(roundOutcome);
-
-	displayRoundNumber(formattedRoundOutcome);
-	displayScores(formattedRoundOutcome);
-	displayWeaponChoices(formattedRoundOutcome);
-	displayRoundStatus(formattedRoundOutcome);
-}
-
-function formatRoundInfo(roundOutcome) {
-	for (let i = 0; i < roundOutcome.length + 1; i++) {
-		switch (i) {
-			case 1:
-				roundOutcome[1] =
-					roundOutcome[1].charAt(0).toUpperCase() + roundOutcome[1].slice(1);
-				roundOutcome[1] = `🧑 Choice: ${roundOutcome[1]}`;
-				break;
-			case 2:
-				roundOutcome[2] =
-					roundOutcome[2].charAt(0).toUpperCase() + roundOutcome[2].slice(1);
-				roundOutcome[2] = `🤖 Choice: ${roundOutcome[2]}`;
-				break;
-		}
-	}
-
-	return roundOutcome;
+function displayRoundOutcome(roundOutcome) {
+	displayRoundNumber(roundOutcome);
+	displayScores(roundOutcome);
+	displayGestureChoices(roundOutcome);
+	displayRoundStatus(roundOutcome);
 }
 
 function displayRoundNumber(roundOutcome) {
 	const roundCounter = document.querySelector(".round-counter");
-	roundCounter.style.color = "#c38d9e";
 	roundCounter.innerText = roundOutcome[0];
 }
 
@@ -177,36 +151,35 @@ function displayScores(roundOutcome) {
 
 	const playerScoreCounter =
 		container.querySelector(".player-score").firstElementChild;
-	playerScoreCounter.style.color = "#c38d9e";
 	playerScoreCounter.innerText = roundOutcome[4];
+
 	const aiScoreCounter = document.querySelector(".ai-score").firstElementChild;
-	aiScoreCounter.style.color = "#c38d9e";
 	aiScoreCounter.innerText = roundOutcome[5];
 }
 
-function displayWeaponChoices(roundOutcome) {
+function displayGestureChoices(roundOutcome) {
 	const playerGesture = document.querySelector(".player-gesture");
 	switch (true) {
-		case roundOutcome[1].includes("Rock"):
+		case roundOutcome[1].includes("rock"):
 			playerGesture.innerText = "👊";
 			break;
-		case roundOutcome[1].includes("Paper"):
+		case roundOutcome[1].includes("paper"):
 			playerGesture.innerText = "✋";
 			break;
-		case roundOutcome[1].includes("Scissors"):
+		case roundOutcome[1].includes("scissors"):
 			playerGesture.innerText = "✌️";
 			break;
 	}
 
 	const aiGesture = document.querySelector(".ai-gesture");
 	switch (true) {
-		case roundOutcome[2].includes("Rock"):
+		case roundOutcome[2].includes("rock"):
 			aiGesture.innerText = "👊";
 			break;
-		case roundOutcome[2].includes("Paper"):
+		case roundOutcome[2].includes("paper"):
 			aiGesture.innerText = "✋";
 			break;
-		case roundOutcome[2].includes("Scissors"):
+		case roundOutcome[2].includes("scissors"):
 			aiGesture.innerText = "✌️";
 			break;
 	}
@@ -223,15 +196,15 @@ function displayRoundStatus(roundOutcome) {
 	status.classList.add("round-status");
 	status.textContent = roundOutcome[3];
 
-	switch (roundOutcome[3]) {
-		case "It's a draw! 🫡":
+	switch (true) {
+		case roundOutcome[3].includes("draw"):
 			status.style.color = "#ffffff";
 			break;
-		case "Congrats! This round is yours to take! 😎":
+		case roundOutcome[3].includes("Congrats!"):
 			status.style.color = "#339966";
 			break;
 
-		case "You lost that round, but it's not over yet! Keep it up! 🤕":
+		case roundOutcome[3].includes("lost"):
 			status.style.color = "#e27d60";
 			break;
 	}
