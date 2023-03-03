@@ -12,11 +12,14 @@
 			href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
 		/>
 		<link rel="icon" type="image/x-icon" href="./images/favicon.png" />
-
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lettering.js/0.7.0/jquery.lettering.js"></script>
+		<script src="https://unpkg.com/textillate@0.4.1/jquery.textillate.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	</head>
 	<body>
-		<h2>$Rock $Paper $Scissors</h2>
+		<h2><span class="type-title"></span></h2>
 		<p class="rule">
 			<span>Rule:</span> The game is a best of 5, meaning the first participant
 			to reach 5 points wins.
@@ -36,12 +39,24 @@
 				<img class="scissors-zoom" id="scissors" src="./images/scissors.gif" />
 			</div>
 		</div>
+
 		<div class="game-log">
-			<p class="round-status"></p>
 			<div class="choices">
-				<p class="player-choice">🧑 Choice: ❓</p>
-				<p class="ai-choice">🤖 Choice: ❓</p>
+				<p class="player-choice">
+					🧑 Choice: <span class="player-gesture">❓</span>
+				</p>
+				<p class="ai-choice">🤖 Choice: <span class="ai-gesture">❓</span></p>
 			</div>
 		</div>
+		<script>
+			var typed = new Typed(".type-title", {
+				strings: ["$Rock", "$Paper", "$Scissors", "$Rock $Paper $Scissors"],
+				typeSpeed: 60,
+				backSpeed: 60,
+				startDelay: 200,
+				backDelay: 900,
+				loop: true,
+			});
+		</script>
 	</body>
 </html>

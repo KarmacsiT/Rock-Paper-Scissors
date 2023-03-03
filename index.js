@@ -185,47 +185,70 @@ function displayScores(roundOutcome) {
 }
 
 function displayWeaponChoices(roundOutcome) {
-	const playerChoice = document.querySelector(".player-choice");
-	switch (roundOutcome[1]) {
-		case "🧑 Choice: Rock":
-			playerChoice.innerText = "🧑 Choice: 👊";
+	const playerGesture = document.querySelector(".player-gesture");
+	switch (true) {
+		case roundOutcome[1].includes("Rock"):
+			playerGesture.innerText = "👊";
 			break;
-		case "🧑 Choice: Paper":
-			playerChoice.innerText = "🧑 Choice: ✋";
+		case roundOutcome[1].includes("Paper"):
+			playerGesture.innerText = "✋";
 			break;
-		case "🧑 Choice: Scissors":
-			playerChoice.innerText = "🧑 Choice: ✌️";
+		case roundOutcome[1].includes("Scissors"):
+			playerGesture.innerText = "✌️";
 			break;
 	}
 
-	const aiChoice = document.querySelector(".ai-choice");
-	switch (roundOutcome[2]) {
-		case "🤖 Choice: Rock":
-			aiChoice.innerText = "🤖 Choice: 👊";
+	const aiGesture = document.querySelector(".ai-gesture");
+	switch (true) {
+		case roundOutcome[2].includes("Rock"):
+			aiGesture.innerText = "👊";
 			break;
-		case "🤖 Choice: Paper":
-			aiChoice.innerText = "🤖 Choice: ✋";
+		case roundOutcome[2].includes("Paper"):
+			aiGesture.innerText = "✋";
 			break;
-		case "🤖 Choice: Scissors":
-			aiChoice.innerText = "🤖 Choice: ✌️";
+		case roundOutcome[2].includes("Scissors"):
+			aiGesture.innerText = "✌️";
 			break;
 	}
 }
 
 function displayRoundStatus(roundOutcome) {
-	const roundStatus = document.querySelector(".round-status");
-	roundStatus.innerText = roundOutcome[3];
+	const gameLog = document.querySelector(".game-log");
+
+	if (gameLog.querySelector(".round-status")) {
+		gameLog.removeChild(gameLog.firstChild);
+	}
+
+	const status = document.createElement("p");
+	status.classList.add("round-status");
+	status.textContent = roundOutcome[3];
 
 	switch (roundOutcome[3]) {
 		case "It's a draw! 🫡":
-			roundStatus.style.color = "#ffffff";
+			status.style.color = "#ffffff";
 			break;
 		case "Congrats! This round is yours to take! 😎":
-			roundStatus.style.color = "#339966";
+			status.style.color = "#339966";
 			break;
 
 		case "You lost that round, but it's not over yet! Keep it up! 🤕":
-			roundStatus.style.color = "#e27d60";
+			status.style.color = "#e27d60";
 			break;
 	}
+
+	$(function () {
+		$(".round-status").textillate({
+			in: {
+				effect: "fadeIn",
+				delayScale: 1.5,
+				delay: 60,
+				sync: false,
+				shuffle: false,
+				reverse: false,
+			},
+			type: "word",
+		});
+	});
+
+	gameLog.insertBefore(status, gameLog.firstChild);
 }
